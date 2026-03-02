@@ -1,0 +1,28 @@
+{
+  "id": "force_majeure",
+  "name": "Force Majeure Event",
+  "description": "An extraordinary event has occurred that may excuse performance under the contract. Simulate whether the event qualifies as force majeure and what contractual consequences follow.",
+  "category": "risk",
+  "parameters": [
+    {
+      "name": "event_type",
+      "param_type": "str",
+      "description": "Type of force majeure event",
+      "default_value": "pandemic",
+      "options": ["pandemic", "natural_disaster", "government_action", "war_terrorism", "infrastructure_failure"]
+    },
+    {
+      "name": "event_duration_days",
+      "param_type": "int",
+      "description": "Expected duration of the event in days",
+      "default_value": 90
+    },
+    {
+      "name": "impact_description",
+      "param_type": "str",
+      "description": "How the event impacts the ability to perform",
+      "default_value": "Unable to deliver services due to government-mandated facility closures"
+    }
+  ],
+  "analysis_guidance": "Focus on: (1) Force majeure definition — does the contract define force majeure? Does this event fall within the definition? (2) Notice requirements — what notice must the affected party provide? Within what timeframe? (3) Mitigation obligations — is the affected party required to mitigate? What steps? (4) Performance suspension — is performance suspended or excused? For how long? (5) Termination trigger — if the force majeure event persists beyond a threshold, can either party terminate? (6) Financial allocation — who bears the financial burden during force majeure? (7) Alternative performance — does the contract require alternative means of performance? (8) Insurance — does the contract require force majeure or business interruption insurance? (9) MAC/MAE clauses — is there a material adverse change clause that interacts with force majeure?"
+}

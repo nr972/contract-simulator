@@ -1,0 +1,18 @@
+FROM python:3.12-slim
+
+RUN apt-get update && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+COPY pyproject.toml .
+COPY src/ src/
+COPY data/ data/
+COPY frontend/ frontend/
+COPY railway_start.sh .
+
+RUN pip install --no-cache-dir .
+RUN chmod +x railway_start.sh
+
+EXPOSE 8000 8501
+
+CMD ["./railway_start.sh"]

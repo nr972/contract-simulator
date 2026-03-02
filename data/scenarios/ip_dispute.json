@@ -1,0 +1,22 @@
+{
+  "id": "ip_dispute",
+  "name": "IP Ownership Dispute",
+  "description": "A dispute has arisen over intellectual property created during the contract relationship. Simulate the contractual position on ownership, licensing, and resolution.",
+  "category": "intellectual_property",
+  "parameters": [
+    {
+      "name": "disputed_asset",
+      "param_type": "str",
+      "description": "Description of the disputed IP asset",
+      "default_value": "Custom software module developed during engagement"
+    },
+    {
+      "name": "dispute_type",
+      "param_type": "str",
+      "description": "Nature of the IP dispute",
+      "default_value": "ownership",
+      "options": ["ownership", "licensing", "infringement"]
+    }
+  ],
+  "analysis_guidance": "Focus on: (1) IP ownership clauses — who owns work product? Is there a work-for-hire provision? (2) Pre-existing IP — how is each party's pre-existing IP protected? (3) License grants — what licenses are granted, to whom, and with what scope? Are they perpetual, irrevocable? (4) IP assignment — is there an assignment clause? What does it cover? (5) IP indemnification — who indemnifies whom for IP infringement claims? (6) Confidential information — how does the confidentiality clause interact with IP? (7) Third-party IP — how is third-party or open-source IP handled? (8) Dispute resolution — what mechanism applies to IP disputes specifically? (9) Survival — do IP provisions survive termination?"
+}

@@ -1,0 +1,22 @@
+{
+  "id": "termination_for_convenience",
+  "name": "Termination for Convenience",
+  "description": "One party wishes to terminate the contract without cause. Simulate the notice requirements, wind-down obligations, and financial consequences.",
+  "category": "commercial",
+  "parameters": [
+    {
+      "name": "requesting_party",
+      "param_type": "str",
+      "description": "Which party is requesting termination",
+      "default_value": "client",
+      "options": ["client", "vendor"]
+    },
+    {
+      "name": "notice_date",
+      "param_type": "str",
+      "description": "When notice of termination is given (relative to contract timeline)",
+      "default_value": "Today (immediate notice)"
+    }
+  ],
+  "analysis_guidance": "Focus on: (1) Termination for convenience rights — does the contract allow it? For both parties or only one? (2) Notice period — how much advance notice is required? What form must it take? (3) Wind-down obligations — what transition, data return, or handoff duties exist? (4) Financial consequences — are there early termination fees? Payment for work in progress? Prepaid amounts? (5) Survival clauses — which obligations survive termination (confidentiality, indemnification, IP rights)? (6) Data and IP return — what must be returned or destroyed upon termination? Within what timeframe? (7) Non-compete/non-solicit — do any restrictive covenants activate upon termination? (8) Dispute resolution — if the parties disagree on termination terms, what's the resolution mechanism?"
+}

@@ -1,0 +1,34 @@
+{
+  "id": "data_breach",
+  "name": "Data Breach",
+  "description": "A data breach has occurred affecting personal data. Simulate the contractual consequences including notification obligations, liability exposure, and indemnification triggers.",
+  "category": "cybersecurity",
+  "parameters": [
+    {
+      "name": "records_affected",
+      "param_type": "int",
+      "description": "Number of records/individuals affected by the breach",
+      "default_value": 10000
+    },
+    {
+      "name": "data_types",
+      "param_type": "str",
+      "description": "Types of data compromised (e.g., PII, PHI, financial)",
+      "default_value": "PII (names, emails, addresses)"
+    },
+    {
+      "name": "discovery_date",
+      "param_type": "str",
+      "description": "When the breach was discovered (relative to contract timeline)",
+      "default_value": "Day 0 (just discovered)"
+    },
+    {
+      "name": "breach_source",
+      "param_type": "str",
+      "description": "Source of the breach",
+      "default_value": "external",
+      "options": ["external", "internal", "vendor/subprocessor"]
+    }
+  ],
+  "analysis_guidance": "Focus on: (1) Data protection and privacy clauses — what obligations are triggered by the breach? (2) Notification requirements — who must be notified, within what timeframe? (3) Indemnification — does this breach trigger indemnification obligations? Who bears the cost? (4) Liability caps — are there caps on liability for data breaches? Are they adequate given the scale? (5) Insurance requirements — does the contract require cyber insurance? (6) Termination rights — does this breach give either party termination rights? (7) Subprocessor/vendor obligations — if the breach originated from a subprocessor, what flows down? (8) Remediation obligations — what remedial steps are contractually required?"
+}

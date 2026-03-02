@@ -29,3 +29,9 @@ Thumbs.db
 
 # Data (real contract data should never be committed)
 data/real/
+data/*.db
+data/generated/
+
+# Temp files
+*.tmp
+*.temp

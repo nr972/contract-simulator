@@ -1,0 +1,27 @@
+{
+  "id": "service_outage",
+  "name": "Service Outage Exceeding SLA",
+  "description": "A service outage has exceeded the contractual SLA thresholds. Simulate the consequences including service credits, termination rights, and liability exposure.",
+  "category": "operational",
+  "parameters": [
+    {
+      "name": "downtime_hours",
+      "param_type": "int",
+      "description": "Total hours of unplanned downtime",
+      "default_value": 48
+    },
+    {
+      "name": "affected_services",
+      "param_type": "str",
+      "description": "Which services or systems were affected",
+      "default_value": "Primary production platform"
+    },
+    {
+      "name": "sla_threshold_hours",
+      "param_type": "int",
+      "description": "The SLA uptime threshold that was breached (in max downtime hours per month)",
+      "default_value": 4
+    }
+  ],
+  "analysis_guidance": "Focus on: (1) SLA definitions — what are the contractual uptime commitments? How is downtime measured? (2) Service credits — what credits or refunds are owed? Is there a cap on credits? (3) Escalation procedures — were required notification and escalation steps followed? (4) Termination rights — does chronic or severe SLA failure trigger termination rights? (5) Limitation of liability — how do liability caps interact with SLA failures? Are consequential damages excluded? (6) Force majeure — could the outage qualify as force majeure? (7) Root cause obligations — is there a contractual duty to provide root cause analysis? (8) Remediation plan — what corrective action commitments exist?"
+}
