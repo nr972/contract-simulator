@@ -59,3 +59,16 @@ def test_upload_path_traversal(test_client):
         files={"file": ("../../../etc/passwd", b"%PDF-test", "application/pdf")},
     )
     assert response.status_code == 400
+
+
+def test_shutdown_endpoint(test_client):
+    """Shutdown endpoint returns 200 and schedules SIGTERM (mocked)."""
+    from unittest.mock import patch
+
+    with patch("contract_simulator.api.main.threading.Thread") as mock_thread:
+        response = test_client.post("/api/v1/shutdown")
+
+    assert response.status_code == 200
+    assert response.json() == {"status": "shutting_down"}
+    mock_thread.assert_called_once()
+    mock_thread.return_value.start.assert_called_once()
