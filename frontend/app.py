@@ -74,7 +74,7 @@ if parsed_contract:
     st.divider()
 
     # Step 2: Select and configure scenario
-    scenario, parameters = render_scenario_selector(API_BASE)
+    scenario, parameters = render_scenario_selector(API_BASE, parsed_contract)
 
     if scenario and parameters is not None:
         st.divider()

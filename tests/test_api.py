@@ -72,3 +72,40 @@ def test_shutdown_endpoint(test_client):
     assert response.json() == {"status": "shutting_down"}
     mock_thread.assert_called_once()
     mock_thread.return_value.start.assert_called_once()
+
+
+def test_suggest_defaults(test_client, sample_parsed_contract):
+    """Suggest-defaults endpoint returns merged defaults with Claude response mocked."""
+    import json
+    from unittest.mock import MagicMock, patch
+
+    mock_suggestions = json.dumps({"records_affected": 50000})
+    mock_message = MagicMock()
+    mock_message.content = [MagicMock(text=mock_suggestions)]
+
+    with patch("contract_simulator.services.parameter_suggester.anthropic.Anthropic") as mock_cls:
+        mock_client = MagicMock()
+        mock_client.messages.create.return_value = mock_message
+        mock_cls.return_value = mock_client
+
+        response = test_client.post(
+            "/scenarios/data_breach/suggest-defaults",
+            json={"clauses": sample_parsed_contract["clauses"]},
+        )
+
+    assert response.status_code == 200
+    defaults = response.json()["defaults"]
+    # Claude suggestion should override template default
+    assert defaults["records_affected"] == 50000
+    # Template defaults should still be present for other params
+    assert "data_types" in defaults
+    assert "breach_source" in defaults
+
+
+def test_suggest_defaults_not_found(test_client, sample_parsed_contract):
+    """Suggest-defaults returns 404 for unknown scenario."""
+    response = test_client.post(
+        "/scenarios/nonexistent/suggest-defaults",
+        json={"clauses": sample_parsed_contract["clauses"]},
+    )
+    assert response.status_code == 404
