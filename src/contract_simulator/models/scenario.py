@@ -16,3 +16,4 @@ class Scenario(BaseModel):
     category: str
     parameters: list[ScenarioParameter]
     analysis_guidance: str  # Instructions for Claude on what to focus on
+    relevant_clause_types: list[str] = []  # Clause types relevant to this scenario

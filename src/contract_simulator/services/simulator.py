@@ -99,6 +99,31 @@ def _validate_risk_level(value: str) -> str:
     return "medium"  # Default if parsing fails
 
 
+def _filter_clauses(
+    contract: ParsedContract, scenario: Scenario
+) -> list[dict[str, str]]:
+    """Filter contract clauses to those relevant to the scenario.
+
+    If the scenario defines relevant_clause_types, only include matching
+    clauses. Otherwise, include all clauses.
+    """
+    relevant_types = set(scenario.relevant_clause_types)
+
+    clauses_data = []
+    for c in contract.clauses:
+        if relevant_types and c.clause_type not in relevant_types:
+            continue
+        clauses_data.append(
+            {
+                "section_number": c.section_number,
+                "title": c.title,
+                "clause_type": c.clause_type,
+                "content": c.content,
+            }
+        )
+    return clauses_data
+
+
 async def run_simulation(
     contract: ParsedContract,
     scenario: Scenario,
@@ -107,19 +132,19 @@ async def run_simulation(
 ) -> AsyncGenerator[SimulationEvent, None]:
     """Run a contract simulation against a scenario, streaming results.
 
-    Makes a single streaming Claude API call and parses XML-tagged sections
-    as they complete, yielding SimulationEvent objects.
+    Filters clauses to those relevant to the scenario, then makes a single
+    streaming Claude API call. Yields text_delta events for progressive
+    display, plus structured clause_analysis and summary events as XML
+    blocks complete.
     """
-    # Build the prompt
-    clauses_data = [
-        {
-            "section_number": c.section_number,
-            "title": c.title,
-            "clause_type": c.clause_type,
-            "content": c.content,
-        }
-        for c in contract.clauses
-    ]
+    clauses_data = _filter_clauses(contract, scenario)
+
+    if not clauses_data:
+        yield SimulationEvent(
+            event_type="error",
+            data="No clauses in this contract are relevant to the selected scenario.",
+        )
+        return
 
     prompt = build_simulation_prompt(
         scenario_name=scenario.name,
@@ -135,17 +160,19 @@ async def run_simulation(
     client = anthropic.Anthropic(api_key=settings.anthropic_api_key)
 
     try:
-        # Stream the response
         accumulated = ""
 
         with client.messages.stream(
             model=settings.anthropic_model,
-            max_tokens=16384,
+            max_tokens=8192,
             system=SIMULATION_SYSTEM,
             messages=[{"role": "user", "content": prompt}],
         ) as stream:
             for text in stream.text_stream:
                 accumulated += text
+
+                # Emit text deltas for progressive frontend display
+                yield SimulationEvent(event_type="text_delta", data=text)
 
                 # Check for complete clause_analysis blocks
                 while "</clause_analysis>" in accumulated:

@@ -1,0 +1,38 @@
+{
+  "id": "change_of_control",
+  "name": "Change of Control",
+  "description": "One party is undergoing a change of control event (merger, acquisition, or sale of substantially all assets). Simulate the contractual consequences including consent requirements, assignment restrictions, termination rights, and survival of obligations.",
+  "category": "corporate",
+  "relevant_clause_types": ["assignment", "termination", "notice", "confidentiality", "ip", "indemnification", "general"],
+  "parameters": [
+    {
+      "name": "change_type",
+      "param_type": "str",
+      "description": "Type of change of control event",
+      "default_value": "acquisition",
+      "options": ["merger", "acquisition", "sale_of_assets", "change_in_majority_ownership"]
+    },
+    {
+      "name": "affected_party",
+      "param_type": "str",
+      "description": "Which party is undergoing the change of control",
+      "default_value": "vendor",
+      "options": ["client", "vendor"]
+    },
+    {
+      "name": "acquirer_is_competitor",
+      "param_type": "str",
+      "description": "Is the acquirer a competitor of the other party?",
+      "default_value": "no",
+      "options": ["yes", "no", "unknown"]
+    },
+    {
+      "name": "notice_given",
+      "param_type": "str",
+      "description": "Has advance notice of the change been given to the other party?",
+      "default_value": "no",
+      "options": ["yes", "no"]
+    }
+  ],
+  "analysis_guidance": "Focus on: (1) Assignment/anti-assignment clauses — does the contract restrict assignment? Is there a carve-out for mergers, acquisitions, or changes of control? Does it require prior written consent? (2) Change of control definitions — does the contract specifically define 'change of control'? Does this event fall within that definition? (3) Consent requirements — is the other party's consent required? What happens if consent is not obtained? (4) Termination rights — does a change of control give the non-affected party a right to terminate? Under what conditions? (5) Notice obligations — must the affected party notify the other party? When? In what form? (6) Confidentiality risks — does confidential information flow to the acquirer? Are there restrictions? Is the acquirer a competitor? (7) IP rights — how do IP licenses and assignments transfer (or not) upon change of control? (8) Non-compete/non-solicit — do any restrictive covenants interact with the change of control? (9) Survival — which obligations survive the change of control event?"
+}

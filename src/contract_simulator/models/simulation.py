@@ -34,5 +34,5 @@ class SimulationSummary(BaseModel):
 
 
 class SimulationEvent(BaseModel):
-    event_type: Literal["clause_analysis", "summary", "error"]
+    event_type: Literal["clause_analysis", "summary", "error", "text_delta"]
     data: ClauseAnalysis | SimulationSummary | str

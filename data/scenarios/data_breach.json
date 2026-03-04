@@ -3,6 +3,7 @@
   "name": "Data Breach",
   "description": "A data breach has occurred affecting personal data. Simulate the contractual consequences including notification obligations, liability exposure, and indemnification triggers.",
   "category": "cybersecurity",
+  "relevant_clause_types": ["data_protection", "liability", "indemnification", "notice", "insurance", "confidentiality", "termination"],
   "parameters": [
     {
       "name": "records_affected",

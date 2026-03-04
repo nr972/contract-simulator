@@ -19,7 +19,7 @@ def _clear_scenario_cache():
 
 def test_load_scenarios(settings):
     scenarios = load_scenarios(settings.scenarios_dir)
-    assert len(scenarios) == 5
+    assert len(scenarios) == 6
 
     ids = {s.id for s in scenarios}
     assert "data_breach" in ids
@@ -27,6 +27,7 @@ def test_load_scenarios(settings):
     assert "termination_for_convenience" in ids
     assert "ip_dispute" in ids
     assert "force_majeure" in ids
+    assert "change_of_control" in ids
 
 
 def test_get_scenario(settings):

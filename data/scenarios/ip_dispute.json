@@ -3,6 +3,7 @@
   "name": "IP Ownership Dispute",
   "description": "A dispute has arisen over intellectual property created during the contract relationship. Simulate the contractual position on ownership, licensing, and resolution.",
   "category": "intellectual_property",
+  "relevant_clause_types": ["ip", "indemnification", "confidentiality", "termination", "dispute_resolution", "liability", "general"],
   "parameters": [
     {
       "name": "disputed_asset",

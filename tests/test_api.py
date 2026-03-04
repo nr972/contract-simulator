@@ -8,7 +8,7 @@ def test_list_scenarios(test_client):
     response = test_client.get("/scenarios")
     assert response.status_code == 200
     scenarios = response.json()
-    assert len(scenarios) == 5
+    assert len(scenarios) == 6
     ids = {s["id"] for s in scenarios}
     assert "data_breach" in ids
 

@@ -3,6 +3,7 @@
   "name": "Force Majeure Event",
   "description": "An extraordinary event has occurred that may excuse performance under the contract. Simulate whether the event qualifies as force majeure and what contractual consequences follow.",
   "category": "risk",
+  "relevant_clause_types": ["force_majeure", "termination", "notice", "liability", "sla", "payment", "insurance"],
   "parameters": [
     {
       "name": "event_type",

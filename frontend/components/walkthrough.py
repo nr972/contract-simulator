@@ -34,10 +34,17 @@ def render_walkthrough(
     error_message: str | None = None
 
     progress_placeholder = st.empty()
+    live_text_placeholder = st.empty()
     results_container = st.container()
 
     with progress_placeholder.container():
-        st.info(f"Simulating **{scenario['name']}** scenario... Results will appear as each clause is analyzed.")
+        st.info(
+            f"Simulating **{scenario['name']}** scenario... "
+            "Live analysis will appear below."
+        )
+
+    # Accumulate raw text for progressive display
+    live_text = ""
 
     # Stream results from SSE endpoint
     try:
@@ -57,14 +64,23 @@ def render_walkthrough(
                         event_str = event_str.strip()
                         if not event_str.startswith("data: "):
                             continue
-                        json_str = event_str[6:]  # Remove "data: " prefix
+                        json_str = event_str[6:]
 
                         try:
                             event = json.loads(json_str)
                         except json.JSONDecodeError:
                             continue
 
-                        if event["event_type"] == "clause_analysis":
+                        if event["event_type"] == "text_delta":
+                            live_text += event["data"]
+                            # Strip XML tags for display
+                            display_text = _strip_xml_tags(live_text)
+                            if display_text.strip():
+                                live_text_placeholder.markdown(
+                                    f"```\n{display_text[-2000:]}\n```"
+                                )
+
+                        elif event["event_type"] == "clause_analysis":
                             clause_analyses.append(event["data"])
                             progress_placeholder.info(
                                 f"Analyzed {len(clause_analyses)} clause(s)... "
@@ -90,25 +106,36 @@ def render_walkthrough(
         st.error("Simulation timed out. The contract may be too large.")
         return
 
-    # Clear progress indicator
+    # Clear progress indicators
     progress_placeholder.empty()
+    live_text_placeholder.empty()
 
     if error_message:
         st.error(f"Simulation error: {error_message}")
         return
 
-    # Display results
+    # Display structured results
     with results_container:
         _display_clause_analyses(clause_analyses)
         if summary_data:
             _display_summary(summary_data)
 
 
+def _strip_xml_tags(text: str) -> str:
+    """Strip XML tags from text for readable live display."""
+    import re
+
+    # Remove XML tags but keep content
+    clean = re.sub(r"<[^>]+>", "", text)
+    # Collapse multiple blank lines
+    clean = re.sub(r"\n{3,}", "\n\n", clean)
+    return clean.strip()
+
+
 def _display_clause_analyses(analyses: list[dict[str, Any]]) -> None:
     """Display clause-by-clause analysis results."""
     st.subheader("Clause-by-Clause Analysis")
 
-    # Show triggered clauses first, then non-triggered
     triggered = [a for a in analyses if a["is_triggered"]]
     not_triggered = [a for a in analyses if not a["is_triggered"]]
 
@@ -123,7 +150,6 @@ def _display_clause_analyses(analyses: list[dict[str, Any]]) -> None:
             f"{risk_icon} [{analysis['clause_id']}] {analysis['clause_title']} — {triggered_label}",
             expanded=analysis["is_triggered"],
         ):
-            # Reasoning
             st.markdown("**Analysis:**")
             st.markdown(analysis["reasoning"])
 
@@ -139,7 +165,7 @@ def _display_clause_analyses(analyses: list[dict[str, Any]]) -> None:
                     if analysis["timelines"]:
                         st.markdown("**Timelines:**")
                         for timeline in analysis["timelines"]:
-                            st.markdown(f"- ⏱️ {timeline}")
+                            st.markdown(f"- {timeline}")
 
                 with col2:
                     if analysis["liability_exposure"]:
@@ -149,7 +175,7 @@ def _display_clause_analyses(analyses: list[dict[str, Any]]) -> None:
                     if analysis["ambiguities"]:
                         st.markdown("**Ambiguities & Gaps:**")
                         for ambiguity in analysis["ambiguities"]:
-                            st.markdown(f"- ⚠️ {ambiguity}")
+                            st.markdown(f"- {ambiguity}")
 
 
 def _display_summary(summary: dict[str, Any]) -> None:
@@ -157,7 +183,6 @@ def _display_summary(summary: dict[str, Any]) -> None:
     st.divider()
     st.subheader("Overall Assessment")
 
-    # Metrics row
     col1, col2, col3 = st.columns(3)
     with col1:
         st.metric("Clauses Analyzed", summary["total_clauses_analyzed"])
@@ -169,7 +194,6 @@ def _display_summary(summary: dict[str, Any]) -> None:
             f"{summary['triggered_clauses']}/{summary['total_clauses_analyzed']}",
         )
 
-    # Key findings
     col_left, col_right = st.columns(2)
 
     with col_left:
@@ -181,7 +205,7 @@ def _display_summary(summary: dict[str, Any]) -> None:
         if summary["critical_timelines"]:
             st.markdown("**Critical Timelines:**")
             for item in summary["critical_timelines"]:
-                st.markdown(f"- ⏱️ {item}")
+                st.markdown(f"- {item}")
 
     with col_right:
         if summary["total_liability_exposure"]:
@@ -191,9 +215,8 @@ def _display_summary(summary: dict[str, Any]) -> None:
         if summary["high_risk_areas"]:
             st.markdown("**High Risk Areas:**")
             for item in summary["high_risk_areas"]:
-                st.markdown(f"- 🔴 {item}")
+                st.markdown(f"- {item}")
 
-    # Overall assessment
     if summary["overall_risk_assessment"]:
         st.divider()
         st.markdown("**Overall Risk Assessment:**")

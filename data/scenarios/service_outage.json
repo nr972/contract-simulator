@@ -3,6 +3,7 @@
   "name": "Service Outage Exceeding SLA",
   "description": "A service outage has exceeded the contractual SLA thresholds. Simulate the consequences including service credits, termination rights, and liability exposure.",
   "category": "operational",
+  "relevant_clause_types": ["sla", "liability", "termination", "notice", "force_majeure", "indemnification", "payment"],
   "parameters": [
     {
       "name": "downtime_hours",

@@ -3,6 +3,7 @@
   "name": "Termination for Convenience",
   "description": "One party wishes to terminate the contract without cause. Simulate the notice requirements, wind-down obligations, and financial consequences.",
   "category": "commercial",
+  "relevant_clause_types": ["termination", "notice", "confidentiality", "ip", "payment", "indemnification", "warranty", "data_protection", "general"],
   "parameters": [
     {
       "name": "requesting_party",
