@@ -67,7 +67,7 @@ done
 
 # Start Streamlit
 echo "Starting frontend on port $FRONTEND_PORT..."
-streamlit run frontend/app.py --server.port $FRONTEND_PORT --server.headless true &
+streamlit run cs_frontend/app.py --server.port $FRONTEND_PORT --server.headless true &
 FRONTEND_PID=$!
 
 # Wait a moment then open browser

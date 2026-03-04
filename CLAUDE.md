@@ -50,7 +50,7 @@ src/contract_simulator/
 ├── prompts/clause_extraction.py # Clause extraction prompts
 └── prompts/simulation.py        # Simulation analysis prompts
 
-frontend/
+cs_frontend/
 ├── app.py                       # Streamlit main app
 └── components/                  # Upload, scenario selector, walkthrough
 
@@ -88,7 +88,7 @@ tests/                           # pytest test suite
 uvicorn src.contract_simulator.api.main:app --reload --port 8000
 
 # Run Streamlit frontend
-streamlit run frontend/app.py
+streamlit run cs_frontend/app.py
 
 # Run tests
 pytest tests/

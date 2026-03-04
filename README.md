@@ -78,7 +78,7 @@ src/contract_simulator/
 ├── services/      # Business logic (parsing, simulation)
 └── prompts/       # LLM prompt templates
 
-frontend/          # Streamlit UI
+cs_frontend/          # Streamlit UI
 data/scenarios/    # Scenario template definitions (JSON)
 data/sample/       # Synthetic sample contracts
 tests/             # pytest test suite

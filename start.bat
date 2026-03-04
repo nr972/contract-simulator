@@ -59,7 +59,7 @@ timeout /t 5 /nobreak >nul
 
 REM Start Streamlit
 echo Starting frontend on port %FRONTEND_PORT%...
-start /b streamlit run frontend/app.py --server.port %FRONTEND_PORT% --server.headless true
+start /b streamlit run cs_frontend/app.py --server.port %FRONTEND_PORT% --server.headless true
 
 REM Wait then open browser
 timeout /t 3 /nobreak >nul

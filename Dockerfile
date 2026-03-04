@@ -5,7 +5,7 @@ WORKDIR /app
 COPY pyproject.toml .
 COPY src/ src/
 COPY data/ data/
-COPY frontend/ frontend/
+COPY cs_frontend/ cs_frontend/
 
 RUN pip install --no-cache-dir .
 
